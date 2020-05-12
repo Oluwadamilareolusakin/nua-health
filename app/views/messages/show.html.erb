@@ -1,0 +1,13 @@
+<div class="card my-3 ">
+  <h5 class="card-header">
+    <% if @message.outbox.user.is_doctor? %>Dr.<% end %>
+    <%= @message.outbox.user.full_name %>
+  </h5>
+  <div class="card-body">
+    <p class="card-text"><%= @message.body %></p>
+    <%= link_to "Reply", new_message_path(:inbox_id => @message.inbox.id, :message_id => @message.id), class: "btn btn-primary" %>
+    <% unless @message.inbox.user.is_doctor? %>
+      <%= link_to  "I've lost my prescription, please issue a new one at a charge of €10", request_prescription_path(id: @message.outbox.user.id), class: "btn btn-primary", method: :post %>
+    <% end %>
+  </div>
+</div>
